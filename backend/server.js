@@ -7,16 +7,16 @@ import orderRouter from "./routes/orderRoute.js";
 import userRouter from "./routes/userRoute.js";
 
 const mongoURI = "mongodb+srv://dbPsymon:dbPsymonSez@cluster0.xbddk.mongodb.net/BountyHarvest";
+const app = express();
+const PORT = 3000
 
 mongoose.connect(mongoURI).then(() => {
-    app.listen(3000, () => {
-        console.log("Server listening at port 3000");
+    app.listen(PORT, () => {
+        console.log(`Server listening at port ${PORT}`);
     });
 }).catch((error) => {
     console.log("Unable to connect to database");
 });
-
-const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());

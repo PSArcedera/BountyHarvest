@@ -10,6 +10,6 @@ userRouter.get(
         const users = await User.find({});
         res.send(users);
     })   
-)
+);
 
 export default userRouter;
