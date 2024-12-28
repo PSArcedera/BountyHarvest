@@ -5,12 +5,13 @@ import cors from 'cors';
 import productRouter from "./routes/productRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 import userRouter from "./routes/userRoute.js";
+import dotenv from "dotenv"
+dotenv.config({path: "./config.env"})
 
-const mongoURI = "mongodb+srv://dbPsymon:dbPsymonSez@cluster0.xbddk.mongodb.net/BountyHarvest";
 const app = express();
 const PORT = 3000
 
-mongoose.connect(mongoURI).then(() => {
+mongoose.connect(process.env.ATLAS_URI).then(() => {
     app.listen(PORT, () => {
         console.log(`Server listening at port ${PORT}`);
     });
