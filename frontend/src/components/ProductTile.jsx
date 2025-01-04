@@ -13,7 +13,7 @@ function ProductTile({product}){
                 </div>
 
             </div>
-            <button className="bg-green-900 w-64 h-12 text-white font-bold cursor-pointer hover:bg-green-700">ORDER</button>
+            <button className="bg-green-950 w-64 h-12 text-white font-bold cursor-pointer hover:bg-green-800">ORDER</button>
         </div>
     )
 }

@@ -2,6 +2,9 @@ import express, { request } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import dotenv from "dotenv"
+dotenv.config({path: "../config.env"})
 
 const userRouter = express.Router();
 const SALT_ROUNDS = 6
@@ -50,6 +53,29 @@ userRouter.post(
             const user = await newUser.save();
             res.send({message: 'User Created', user});
         }
+    })
+)
+
+//Login user
+userRouter.post(
+    '/signin',
+    expressAsyncHandler(async (req, res) =>{
+        const user = await User.findOne({userEmail: req.body.userEmail});
+        
+        if(user){
+            let confirmation = await bcrypt.compare(req.body.userPassword, user.userPassword);
+            if(confirmation){
+                const token = jwt.sign({user}, process.env.SECRETKEY, {expiresIn: "1h"})
+                res.json({success: true, token})
+            }
+            else{
+                res.json({success:false, message:"Incorrect password"})
+            }
+        }
+        else{
+            res.json({success:false, message:"User not found"})
+        }
+
     })
 )
 
