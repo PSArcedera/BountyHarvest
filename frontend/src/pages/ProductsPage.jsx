@@ -9,6 +9,7 @@ function ProductList() {
   useEffect(() => {
     async function loadProducts(){
       let data = await getProducts()
+      data.sort((a, b) => a.productName.localeCompare(b.productName))
       if(data){
         setData(data)
       }
@@ -17,15 +18,17 @@ function ProductList() {
   }, [])
 
   return (
-    <div className='text-left mt-10'>
+    <div className='m-10'>
       <h1 className='text-4xl font-black text-green-900'>PRODUCTS</h1>
-      <div className='flex flex-wrap'>
+      <div className='flex flex-row flex-wrap justify-stretch'>
         {data.map((product) => {
-          return (
-            <>
-              <ProductTile product={product} />
-            </>
-          )
+          if(product.productStock >= 0){
+            return (
+              <>
+                <ProductTile product={product}/>
+              </>
+            )
+          }
         })}
       </div>
     </div>

@@ -34,6 +34,7 @@ productRouter.post(
         const newProduct = new Products({
             productName: req.body.productName,
             productPrice: req.body.productPrice,
+            productStock: req.body.productStock,
             productImage: req.body.productImage
         });
         const product = await newProduct.save();
@@ -50,6 +51,7 @@ productRouter.put(
         if(product){
             productName = req.body.productName;
             productPrice = req.body.productPrice;
+            productStock = req.body.productStock;
             productImage = req.body.productImage;
             await product.save();
             res.send({message: 'Product Updated'});

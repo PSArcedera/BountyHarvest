@@ -1,17 +1,19 @@
 
 function ProductTile({product}){
+
+
     return (
-        <div className="m-10  bg-zinc-200 max-w-[300px]">
-            <img src={product.productImage} alt="product image" className="w-[300px] h-[300px] object-fill"/>
-            <div className="p-4 text-left">
-                <h1 className="text-xl font-semibold">{product.productName}</h1>
+        <div className="m-10">
+            <img src={product.productImage} alt="product image" className="w-64 h-64 object-cover"/>
+            <div className="pt-2 pb-2 text-left">
+                <h1 className="text-m font-semibold">{product.productName}</h1>
                 <div className="flex justify-between">
-                    <h2 className="text-m font-medium">Php {product.productPrice}</h2>
-                    <h2 className="text-m font-medium">Stocks: 10 </h2>
+                    <h2 className="text-sm font-medium">Php {product.productPrice}</h2>
+                    <h2 className="text-sm font-light">Stocks: {product.productStock} kg</h2>
                 </div>
 
             </div>
-            <button className="bg-green-900 w-[300px] h-[50px] text-white">ORDER</button>
+            <button className="bg-green-900 w-64 h-12 text-white font-bold cursor-pointer hover:bg-green-700">ORDER</button>
         </div>
     )
 }

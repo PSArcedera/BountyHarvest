@@ -16,7 +16,7 @@ mongoose.connect(process.env.ATLAS_URI).then(() => {
         console.log(`Server listening at port ${PORT}`);
     });
 }).catch((error) => {
-    console.log("Unable to connect to database");
+    console.error(error);
 });
 
 app.use(bodyParser.json());
