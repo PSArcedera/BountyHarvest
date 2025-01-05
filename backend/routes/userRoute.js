@@ -1,4 +1,4 @@
-import express, { request } from 'express';
+import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import bcrypt from 'bcrypt'
@@ -9,7 +9,7 @@ dotenv.config({path: "../config.env"})
 const userRouter = express.Router();
 const SALT_ROUNDS = 6
 
-//Get all users
+//#1 Get all users
 userRouter.get(
     '/',
     expressAsyncHandler(async (req, res) => {
@@ -19,21 +19,22 @@ userRouter.get(
 );
 
 
-//Find a user
+//#2 Find a user
 userRouter.get(
-  '/:id',
-  expressAsyncHandler(async (req, res) => {
-    const user = await User.findById(req.params.id);
-    if(user){
-        res.send(user);
-    }
-    else{
-        res.status(404).send({message: 'User not found'});
-    }
-  })  
+    '/:id',
+    expressAsyncHandler(async (req, res) => {
+        const userId = req.params.id
+        const user = await User.findById(userId);
+        if(user){
+            res.send(user);
+        }
+        else{
+            res.status(404).send({message: 'User not found'});
+        }
+    })  
 );
 
-//Create a user
+//#3 Create a user
 userRouter.post(
     '/newuser',
     expressAsyncHandler(async (req, res) =>{
@@ -56,7 +57,7 @@ userRouter.post(
     })
 )
 
-//Login user
+//#4 Login user
 userRouter.post(
     '/signin',
     expressAsyncHandler(async (req, res) =>{
@@ -79,8 +80,7 @@ userRouter.post(
     })
 )
 
-
-//Update user info
+//#5 Update user info
 userRouter.put(
     '/:id',
     expressAsyncHandler(async (req, res) => {
@@ -101,7 +101,7 @@ userRouter.put(
     })
 )
 
-//Delete a user
+//#6 Delete a user
 userRouter.delete(
     '/:id',
     expressAsyncHandler(async (req, res) => {

@@ -9,13 +9,12 @@ function SigninPage(){
     return(
         <>
             {!view ?
-            <> 
-                <LogIn/>
-                <button onClick={() => setView(!view)}>Create new account</button>
-            </>: 
+            <div className="flex flex-col"> 
+                <LogIn buttonView={<button className="font-bold text-yellow-500" onClick={() => setView(!view)}>Sign Up</button>}/>
+                
+            </div>: 
             <>
-                <CreateUser/>
-                <button onClick={() => setView(!view)}>Login</button>
+                <CreateUser buttonView={<button className="font-bold text-yellow-500" onClick={() => setView(!view)}>Login</button>}/>
             </>}            
         </>
     )

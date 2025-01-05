@@ -1,6 +1,18 @@
+import { useState } from "react"
+import { createOrder } from "../api/orderAPI"
 
-function ProductTile({product}){
+function ProductTile({product,person}){
 
+    async function handleOrder(){
+        console.log(person)
+        const submitOrder = {
+            orderPerson: person.user.userName,
+            orderProduct: product.productName,
+            orderPrice: product.productPrice
+        }
+
+        await createOrder(submitOrder)
+    }
 
     return (
         <div className="m-10">
@@ -13,7 +25,7 @@ function ProductTile({product}){
                 </div>
 
             </div>
-            <button className="bg-green-950 w-64 h-12 text-white font-bold cursor-pointer hover:bg-green-800">ORDER</button>
+            <button onClick = {handleOrder} className="bg-green-950 w-64 h-12 text-white font-bold cursor-pointer hover:bg-green-800">ORDER</button>
         </div>
     )
 }

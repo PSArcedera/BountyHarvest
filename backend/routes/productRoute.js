@@ -1,21 +1,26 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Products from '../models/productModel.js';
+import jwt from 'jsonwebtoken'
+import dotenv from "dotenv"
+dotenv.config({path: "../config.env"})
 
 const productRouter = express.Router();
 
-//Get all products
+//#1 Get all products
 productRouter.get(
     '/', 
+    verifyToken,
     expressAsyncHandler(async (req, res) => {
         const products = await Products.find();
         res.send(products);
     })
 );
 
-//Find a product
+//#2 Find a product
 productRouter.get(
     '/:id', 
+    verifyToken,
     expressAsyncHandler(async(req, res) => {
         const product = await Products.findById(req.params.id);
         if(product) {
@@ -27,9 +32,10 @@ productRouter.get(
     })
 );
 
-//Create a product
+//#3 Create a product
 productRouter.post(
     '/create',
+    verifyToken,
     expressAsyncHandler(async (req, res) => {
         const newProduct = new Products({
             productName: req.body.productName,
@@ -42,9 +48,10 @@ productRouter.post(
     })
 );
 
-//Update a product
+//#4 Update a product
 productRouter.put(
     '/:id',
+    verifyToken,
     expressAsyncHandler(async (req, res) => {
         const productId = req.params.id;
         const product = await Products.findById(productId);
@@ -62,9 +69,10 @@ productRouter.put(
     })
 );
 
-//Delete product
+//#5 Delete product
 productRouter.delete(
   '/:id',
+  verifyToken,
   expressAsyncHandler(async (req, res) => {
     const product = await Products.findById(req.params.id);
     if(product){
@@ -77,4 +85,21 @@ productRouter.delete(
   })  
 );
 
+//#6 Verify login
+function verifyToken(request, response, next){
+    const authHeaders = request.headers["authorization"]
+    const token = authHeaders && authHeaders.split(' ')[1]
+    if(!token){
+        return response.status(401).json({message: "Authentication token is missing"})
+    }
+    
+    jwt.verify(token, process.env.SECRETKEY, (error, user) => {
+        if(error){
+            return response.status(403).json({message:"Invalid token"})
+        }
+        request.body.user = user
+        next()
+    })
+
+}
 export default productRouter;

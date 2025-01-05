@@ -44,6 +44,5 @@ export async function verifyUser(user){
     }
     else{
         return
-
     }
 }

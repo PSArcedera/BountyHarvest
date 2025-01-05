@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { getProducts, findProduct, createProduct, updateProduct, deleteProduct } from '../api/productAPI'
 import ProductTile from '../components/productTile'
-
+import * as jwt_decode from "jwt-decode"
 
 function ProductList() { 
   const [data, setData] = useState([])
+  const [user, setUser] = useState({})
 
   useEffect(() => {
     async function loadProducts(){
@@ -13,6 +14,9 @@ function ProductList() {
       if(data){
         setData(data)
       }
+      const token = sessionStorage.getItem("User")
+      const decodedUser = jwt_decode.jwtDecode(token)
+      setUser(decodedUser)
     }
     loadProducts()
   }, [])
@@ -25,7 +29,7 @@ function ProductList() {
           if(product.productStock >= 0){
             return (
               <>
-                <ProductTile product={product}/>
+                <ProductTile product={product} person={user}/>
               </>
             )
           }

@@ -4,7 +4,7 @@ import Order from '../models/orderModel.js';
 
 const orderRouter = express.Router();
 
-//Get all orders
+//#1 Get all orders
 orderRouter.get(
     '/', 
     expressAsyncHandler(async (req, res) => {
@@ -13,8 +13,7 @@ orderRouter.get(
     })
 );
 
-
-//Find an order
+//#2 Find an order
 orderRouter.get(
     '/:id',
     expressAsyncHandler(async (req,res) => {
@@ -28,11 +27,12 @@ orderRouter.get(
     })
 );
 
-//Create an order
+//#3 Create an order
 orderRouter.post(
     '/create',
     expressAsyncHandler(async (req, res) => {
         const newOrder = new Order({
+            orderPerson : req.body.orderPerson,
             orderProduct: req.body.orderProduct,
             orderPrice: req.body.orderPrice
         });
@@ -41,13 +41,14 @@ orderRouter.post(
     })
 );
 
-//Update an order
+//#4 Update an order
 orderRouter.put(
     '/:id',
     expressAsyncHandler(async (req, res) => {
         const orderId = req.params.id;
         const order = await Order.findById(orderId);
         if(order){
+            orderPerson = req.body.orderPerson;
             orderProduct = req.body.orderProduct;
             orderPrice = req.body.orderPrice;
             await order.save();
@@ -59,7 +60,7 @@ orderRouter.put(
     })
 );
 
-//Delete an order
+//#5 Delete an order
 orderRouter.delete(
     '/:id',
     expressAsyncHandler(async (req, res) =>{
@@ -75,6 +76,5 @@ orderRouter.delete(
 
     })
 );
-
 
 export default orderRouter;
